@@ -504,19 +504,27 @@ export default class HighlightPlugin extends Plugin {
       return;
     }
 
-    const sel = window.getSelection();
-    const hasFreshSelection =
-      !!sel && !!sel.toString().trim() && !!this.storedRange;
+    // Use storedRange (saved when buttons appeared) as source of truth.
+    // The live window.getSelection() is often empty by tap time on iOS
+    // because the OS selection bubble dismisses on tap outside the selection.
+    const storedText = this.storedRange?.toString().trim() ?? "";
 
     let actionedText: string | null = null;
     let actionedRect: DOMRect | null = null;
 
-    if (hasFreshSelection) {
-      actionedText = sel!.toString();
+    if (storedText) {
+      actionedText = storedText;
       actionedRect = this.storedRange!.getBoundingClientRect();
-      sel!.removeAllRanges();
-      sel!.addRange(this.storedRange!.cloneRange());
-      await this.runFromReading(view.file, sel!, action);
+      const sel = window.getSelection();
+      if (sel) {
+        sel.removeAllRanges();
+        try {
+          sel.addRange(this.storedRange!.cloneRange());
+          await this.runFromReading(view.file, sel, action);
+        } catch (e) {
+          console.error("[Highlight] failed to apply from storedRange", e);
+        }
+      }
     } else if (this.lastAction && Date.now() - this.lastAction.timestamp < LAST_ACTION_TTL_MS) {
       actionedText = this.lastAction.text;
       actionedRect = this.lastAction.rangeRect;
@@ -530,6 +538,9 @@ export default class HighlightPlugin extends Plugin {
         rangeRect: actionedRect,
         timestamp: Date.now(),
       };
+      // Clear stored range so the next tap uses lastAction (text-based search)
+      // rather than a range that's likely pointing at detached DOM after re-render.
+      this.storedRange = null;
       this.positionFloatingButtons(actionedRect);
     } else {
       this.hideFloatingButtons();
