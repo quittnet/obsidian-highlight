@@ -678,22 +678,40 @@ class HighlightSettingTab extends PluginSettingTab {
         })
       );
 
-    new Setting(containerEl)
-      .setName("Highlight style")
-      .setDesc("Visual treatment applied to highlighted text.")
-      .addDropdown((d) =>
-        d
-          .addOption("lowlight", "Lowlight (muted)")
-          .addOption("floating", "Floating (with shadow)")
-          .addOption("realistic", "Realistic (marker stroke)")
-          .addOption("rounded", "Rounded (pill)")
-          .setValue(this.plugin.settings.highlightStyle)
-          .onChange(async (value) => {
-            this.plugin.settings.highlightStyle = value as HighlightStyle;
-            await this.plugin.saveSettings();
-            this.plugin.applyStyleClass();
-          })
-      );
+    new Setting(containerEl).setName("Highlight style").setHeading();
+    containerEl.createEl("div", {
+      cls: "setting-item-description",
+      text: "Visual treatment applied to highlighted text. Click an option to apply.",
+    });
+
+    const picker = containerEl.createDiv({ cls: "highlight-style-picker" });
+    const styleLabels: Record<HighlightStyle, string> = {
+      lowlight: "Lowlight (underlined)",
+      floating: "Floating (drop shadow)",
+      realistic: "Realistic (marker stroke)",
+      rounded: "Rounded (pill)",
+    };
+
+    for (const style of ALL_STYLES) {
+      const option = picker.createDiv({
+        cls: `highlight-style-option highlight-style-option--${style}`,
+      });
+      if (this.plugin.settings.highlightStyle === style) option.addClass("is-active");
+
+      const preview = option.createDiv({ cls: "highlight-style-preview" });
+      preview.createSpan({ cls: `hl-preview-${style}-yellow`, text: "yellow text" });
+      preview.appendText(" and ");
+      preview.createSpan({ cls: `hl-preview-${style}-red`, text: "red text" });
+
+      option.createDiv({ cls: "highlight-style-label", text: styleLabels[style] });
+
+      option.addEventListener("click", async () => {
+        this.plugin.settings.highlightStyle = style;
+        await this.plugin.saveSettings();
+        this.plugin.applyStyleClass();
+        this.display();
+      });
+    }
   }
 }
 

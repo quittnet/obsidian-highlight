@@ -9,16 +9,26 @@ mark.hl-red,
 
 /* ===== Highlight styles (apply to both ==yellow== and red <mark>) ===== */
 
-/* Lowlight: muted/translucent, no decoration */
+/* Lowlight: underline only (no background) */
 body.highlight-style-lowlight .markdown-rendered mark:not(.hl-red),
 body.highlight-style-lowlight .markdown-source-view mark:not(.hl-red) {
-  background-color: rgba(255, 245, 153, 0.55);
-  padding: 0 1px;
+  background-color: transparent !important;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #d4a800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  padding: 0;
 }
 body.highlight-style-lowlight .markdown-rendered mark.hl-red,
 body.highlight-style-lowlight .markdown-source-view mark.hl-red {
-  background-color: rgba(255, 138, 138, 0.55) !important;
-  padding: 0 1px !important;
+  background-color: transparent !important;
+  color: inherit !important;
+  text-decoration: underline;
+  text-decoration-color: #dd3333;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  padding: 0 !important;
   border-radius: 0 !important;
 }
 
@@ -115,6 +125,101 @@ body.highlight-style-rounded .markdown-source-view mark.hl-red {
 .highlight-floating-btn:active {
   transform: scale(0.97);
   opacity: 0.85;
+}
+
+/* ===== Settings: highlight style picker ===== */
+
+.highlight-style-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 24px;
+}
+
+.highlight-style-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  background: var(--background-secondary);
+  cursor: pointer;
+  transition: border-color 0.1s ease, background 0.1s ease;
+}
+
+.highlight-style-option:hover {
+  border-color: var(--background-modifier-border-hover, var(--interactive-accent));
+}
+
+.highlight-style-option.is-active {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 1px var(--interactive-accent) inset;
+}
+
+.highlight-style-preview {
+  font-size: 14px;
+  color: var(--text-normal);
+}
+
+.highlight-style-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Preview swatch styles (mirror the live styles per option) */
+
+.hl-preview-lowlight-yellow {
+  text-decoration: underline;
+  text-decoration-color: #d4a800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.hl-preview-lowlight-red {
+  text-decoration: underline;
+  text-decoration-color: #dd3333;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.hl-preview-floating-yellow {
+  background: #fff599;
+  color: #1a1a1a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+.hl-preview-floating-red {
+  background: #ff8a8a;
+  color: #1a1a1a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.hl-preview-realistic-yellow {
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 230, 90, 0.85) 55%);
+  padding: 0;
+}
+.hl-preview-realistic-red {
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 110, 110, 0.85) 55%);
+  padding: 0;
+}
+
+.hl-preview-rounded-yellow {
+  background: #fff599;
+  color: #1a1a1a;
+  border-radius: 1em;
+  padding: 1px 0.5em;
+}
+.hl-preview-rounded-red {
+  background: #ff8a8a;
+  color: #1a1a1a;
+  border-radius: 1em;
+  padding: 1px 0.5em;
 }
 
 .highlight-index-view {
