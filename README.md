@@ -13,6 +13,11 @@ Works in **Read mode** and **Edit mode**, on **desktop**, **iPhone**, and **iPad
 - Auto-maintains an index file (`Highlighted.md` by default) with `## Highlighted yellow` and `## Highlighted red` sections
 - Each index entry is a **block-precision link**. Clicking it jumps to the exact paragraph in the source note
 - **Right sidebar panel**: clicking the highlighter ribbon icon (or running `Toggle Highlighted sidebar`) opens the index in a sidebar panel with the same clickable links. Click the icon again to close it. Panel auto-refreshes whenever you add or remove a highlight.
+- **Highlight style picker**: choose between four visual presets for how highlights look. Settings tab shows a live yellow + red sample for each:
+  - **Lowlight**: thick colored underline, no background fill
+  - **Floating**: solid color with a soft drop shadow (like a sticky note)
+  - **Realistic**: gradient covers the bottom of the text, like a real marker stroke
+  - **Rounded**: pill-shaped capsule with rounded corners
 - Refuses safely (with notice) when wrap would break markdown: inside code blocks, inside `[[wikilinks]]`, inside link URLs
 
 ## Install via BRAT
@@ -38,6 +43,7 @@ BRAT will auto-update the plugin when new releases ship.
 - **Highlighted index file**: rename the index file path (default `Highlighted.md`)
 - **Max snippet length**: how long entries in the index can be (default 100 chars)
 - **Maintain Highlighted index**: turn off if you want the highlight wraps without the index
+- **Highlight style**: pick one of four visual styles (Lowlight, Floating, Realistic, Rounded). Each option in the picker shows a live preview of yellow and red text in that style
 
 ## Storage format
 
