@@ -1,7 +1,7 @@
 {
   "id": "yellow-highlight",
   "name": "Highlight",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "minAppVersion": "1.0.0",
   "description": "Highlight selected text yellow or red, on desktop and mobile. Auto-maintains a Highlighted index file with block-precision links grouped by color.",
   "author": "zq",

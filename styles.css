@@ -7,6 +7,69 @@ mark.hl-red,
   border-radius: 2px;
 }
 
+/* ===== Highlight styles (apply to both ==yellow== and red <mark>) ===== */
+
+/* Lowlight: muted/translucent, no decoration */
+body.highlight-style-lowlight .markdown-rendered mark:not(.hl-red),
+body.highlight-style-lowlight .markdown-source-view mark:not(.hl-red) {
+  background-color: rgba(255, 245, 153, 0.55);
+  padding: 0 1px;
+}
+body.highlight-style-lowlight .markdown-rendered mark.hl-red,
+body.highlight-style-lowlight .markdown-source-view mark.hl-red {
+  background-color: rgba(255, 138, 138, 0.55) !important;
+  padding: 0 1px !important;
+  border-radius: 0 !important;
+}
+
+/* Floating: solid color + drop shadow */
+body.highlight-style-floating .markdown-rendered mark:not(.hl-red),
+body.highlight-style-floating .markdown-source-view mark:not(.hl-red) {
+  background-color: #fff599;
+  padding: 1px 4px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+body.highlight-style-floating .markdown-rendered mark.hl-red,
+body.highlight-style-floating .markdown-source-view mark.hl-red {
+  background-color: #ff8a8a !important;
+  padding: 1px 4px !important;
+  border-radius: 3px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* Realistic: marker stroke (covers bottom ~45% of text height) */
+body.highlight-style-realistic .markdown-rendered mark:not(.hl-red),
+body.highlight-style-realistic .markdown-source-view mark:not(.hl-red) {
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 230, 90, 0.85) 55%) !important;
+  background-color: transparent !important;
+  padding: 0;
+  color: inherit;
+}
+body.highlight-style-realistic .markdown-rendered mark.hl-red,
+body.highlight-style-realistic .markdown-source-view mark.hl-red {
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 110, 110, 0.85) 55%) !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Rounded: pill-shaped capsule */
+body.highlight-style-rounded .markdown-rendered mark:not(.hl-red),
+body.highlight-style-rounded .markdown-source-view mark:not(.hl-red) {
+  background-color: #fff599;
+  border-radius: 1em;
+  padding: 1px 0.5em;
+  margin: 0 -0.15em;
+}
+body.highlight-style-rounded .markdown-rendered mark.hl-red,
+body.highlight-style-rounded .markdown-source-view mark.hl-red {
+  background-color: #ff8a8a !important;
+  border-radius: 1em !important;
+  padding: 1px 0.5em !important;
+  margin: 0 -0.15em;
+}
+
 .highlight-floating-container {
   position: fixed;
   z-index: var(--layer-popover, 30);

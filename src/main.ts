@@ -19,6 +19,9 @@ const VIEW_TYPE_HIGHLIGHT_INDEX = "highlight-index-view";
 
 type HighlightColor = "yellow" | "red";
 type RequestedAction = HighlightColor | "unhighlight";
+type HighlightStyle = "lowlight" | "floating" | "realistic" | "rounded";
+
+const ALL_STYLES: HighlightStyle[] = ["lowlight", "floating", "realistic", "rounded"];
 
 const COLORS: HighlightColor[] = ["yellow", "red"];
 const ALL_ACTIONS: RequestedAction[] = ["yellow", "red", "unhighlight"];
@@ -38,12 +41,14 @@ interface HighlightSettings {
   highlightsFile: string;
   maxSnippetLength: number;
   enableIndex: boolean;
+  highlightStyle: HighlightStyle;
 }
 
 const DEFAULT_SETTINGS: HighlightSettings = {
   highlightsFile: "Highlighted.md",
   maxSnippetLength: 100,
   enableIndex: true,
+  highlightStyle: "lowlight",
 };
 
 interface Match {
@@ -98,6 +103,7 @@ export default class HighlightPlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
+    this.applyStyleClass();
     this.addSettingTab(new HighlightSettingTab(this));
 
     for (const action of ALL_ACTIONS) {
@@ -163,6 +169,18 @@ export default class HighlightPlugin extends Plugin {
 
   onunload(): void {
     this.removeFloatingButtons();
+    this.removeStyleClass();
+  }
+
+  applyStyleClass(): void {
+    const body = document.body;
+    for (const s of ALL_STYLES) body.classList.remove(`highlight-style-${s}`);
+    body.classList.add(`highlight-style-${this.settings.highlightStyle}`);
+  }
+
+  removeStyleClass(): void {
+    const body = document.body;
+    for (const s of ALL_STYLES) body.classList.remove(`highlight-style-${s}`);
   }
 
   refreshHighlightViews(): void {
@@ -658,6 +676,23 @@ class HighlightSettingTab extends PluginSettingTab {
           this.plugin.settings.enableIndex = value;
           await this.plugin.saveSettings();
         })
+      );
+
+    new Setting(containerEl)
+      .setName("Highlight style")
+      .setDesc("Visual treatment applied to highlighted text.")
+      .addDropdown((d) =>
+        d
+          .addOption("lowlight", "Lowlight (muted)")
+          .addOption("floating", "Floating (with shadow)")
+          .addOption("realistic", "Realistic (marker stroke)")
+          .addOption("rounded", "Rounded (pill)")
+          .setValue(this.plugin.settings.highlightStyle)
+          .onChange(async (value) => {
+            this.plugin.settings.highlightStyle = value as HighlightStyle;
+            await this.plugin.saveSettings();
+            this.plugin.applyStyleClass();
+          })
       );
   }
 }
